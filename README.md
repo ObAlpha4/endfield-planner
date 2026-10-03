@@ -1,1 +1,2 @@
-# endfield-planner
+# 阅读指南
+网站随时会进行修改
