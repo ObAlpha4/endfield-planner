@@ -30,6 +30,6 @@ function planTheoryHTML(p,c){const q=mixedReport(p,c);let h='<h3>'+(q.engineerin
  if(!q.fits)h+='<p class="negative"><strong>当前供料接法未完整实现或超过合计预算，建议人为构造或放弃该方案；下方仅供诊断。</strong></p>';
  h+=rowsTable(['原料供给对象','介质','实际消耗/min','供给容量/min','用途','取货方式'],q.ts.map(t=>[t.name,t.pipe?'管道':'传送带',fmt(t.v,6),fmt(t.take.supplyCapacity??t.v,6),t.kind,feedText(t,p.mode)]));
  h+='<div class="take-details-group"><button type="button" class="outline take-details-toggle" aria-expanded="false" onclick="toggleTakeDetails(this)">展开全部接法</button>'+warehouseHTML(q.warehouse);
- for(const t of q.ts){if(!t.take.core||t.pipe)continue;const k=t.take.core;h+='<details class="take-detail"><summary>'+t.name+'：'+fmt(t.v,6)+'/min</summary><p>'+feedText(t,p.mode)+'</p>'+rowsTable(['分流路径','用途','流量/min'],k.chunks.map(x=>[x.path,x.category,fmt(x.flow,6)]))+'</details>';}
+ for(const t of q.ts){const k=t.take.core;h+='<details class="take-detail"><summary>'+escapeXML(t.name)+'：'+fmt(t.v,6)+'/min · '+(t.pipe?'管道':'传送带')+'</summary><p>'+feedText(t,p.mode)+'</p>';if(k?.chunks?.length)h+=rowsTable(['分流路径','用途','流量/min'],k.chunks.map(x=>[x.path,x.category,fmt(x.flow,6)]));h+='</details>';}
  return h+'</div>';
 }
